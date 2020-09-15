@@ -221,6 +221,11 @@ class TensorBoardLogger(LightningLoggerBase):
     def finalize(self, status: str) -> None:
         self.save()
 
+    @rank_zero_only
+    def close(self) -> None:
+        super().close()
+        self.experiment.close()
+
     @property
     def name(self) -> str:
         return self._name
